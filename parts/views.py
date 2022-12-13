@@ -10,3 +10,6 @@ def request_list(request):
 
 def index(request):
     return render(request, 'parts/index.html', {})
+
+def request_new(request):
+    return render(request, 'parts/request_new.html', {})
