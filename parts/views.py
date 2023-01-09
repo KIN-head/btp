@@ -65,18 +65,17 @@ def order_from_file(request):
         cart = Cart(request)
         for row in ws.iter_rows():
             row_data = list()
+            #pdct = ''
             for cell in row:
                 row_data.append(str(cell.value))
-            pdct = Product.objects.get_or_create(name=row_data[0])
-            prod = get_object_or_404(Product, name=row_data[0])
-            #quantity = int(row_data[1])
-            #order_items =
-            if  pdct:
-                #excel_data.append(str(prod.id))
-                #cart.add(prod)
-                cart.add(product=prod, quantity=int(row_data[1]),
+            if not row_data[1] == 'Quantity' and not row_data[1] == 'None':
+                pdct = Product.objects.get_or_create(name=row_data[0])
+                prod = get_object_or_404(Product, name=row_data[0])
+                if  pdct:
+                    cart.add(product=prod, quantity=int(row_data[1]),
                          update_quantity='update')
-            excel_data.append(row_data)
+
+                excel_data.append(row_data)
 
     return redirect('cart_detail')
     #return render(request, 'cart/detail.html', {'cart': cart})
@@ -95,9 +94,7 @@ def order_create(request):
         if form.is_valid():
             order = form.save()
             for item in cart:
-                OrderItem.objects.create(order=order,
-                                         product=item['product'],
-                                         quantity=item['quantity'])
+                OrderItem.objects.create(order=order, product=item['product'], quantity=item['quantity'])
             # очистка корзины
             cart.clear()
             return render(request, 'parts/order/created.html',
