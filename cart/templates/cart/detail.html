@@ -1,0 +1,70 @@
+{% extends "parts/base.html" %}
+{% load static %}
+
+{% block title %}
+    Your order cart
+{% endblock %}
+
+{% block content %}
+<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-color:#f79f24;">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row d-md-flex justify-content-center">
+			<div class="col-md-12 col-lg-12 half p-6 py-21 pl-lg-12 ftco-animate heading-section heading-section-white">
+				<span class="subheading">Free сonsultation is possible. Feel free to call us.</span>
+				<div>
+          <h1>Your order cart</h1>
+          <table class="cart" style="background-color: white;">
+              <thead>
+              <tr>
+                  <th>Image</th>
+                  <th>Product number</th>
+                  <th>Quantity</th>
+                  <th>Remove</th>
+                  <!--<th>Unit price</th>
+                  <th>Price</th>-->
+              </tr>
+              </thead>
+              <tbody>
+              {% for item in cart %}
+                  {% with product=item.product %}
+                      <tr>
+                          <td>
+                              <a href="{{ product.get_absolute_url }}">
+                                {% load thumbnail %}
+
+                                {% if product.image %}
+                                    {% thumbnail product.image '75x50' as im %}
+                                        <img src="{{ im.url }}">
+                                    {% endthumbnail %}
+
+                                {% else %}
+                                    <img src="{% static '/images/noimage.png' %}" style="width:75px;">
+                                {% endif %}
+                                  <!--<img src="{% if product.image %}{{ product.image.url }}{% else %}{% static "/images/noimage.png" %}{% endif %}">-->
+                              </a>
+                          </td>
+                          <td>{{ product.name }}</td>
+                          <td>{{ item.quantity }}</td>
+                          <td>
+                              <a href="{% url "cart_remove" product.id %}">Remove</a>
+                          </td>
+                          <!--<td class="num">${{ item.price }}</td>
+                          <td class="num">${{ item.total_price }}</td>-->
+                      </tr>
+                  {% endwith %}
+              {% endfor %}
+              <tr class="total">
+                  <td>Make order</td>
+                  <td></td>
+                  <td></td>
+                  <td><a href="{% url "order_create" %}" class="button">Checkout</a></td>
+              </tr>
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'parts/base.html' %}
+{% load static %}
+{% block content %}
+
+<section class="ftco-appointment ftco-section ftco-no-pt ftco-no-pb img" style="background-color:#fff;">
+	<div class="overlay"></div>
+	<div class="container">
+		<div class="row d-md-flex justify-content-center">
+			<div class="col-md-12 col-lg-12 half p-12 py-21 pl-lg-12 mb-5 mt-5 ftco-animate heading-section">
+				<center><h2>For your convenience and to minimize errors when making requests, use the order upload form from an excel file</h2></center>
+			</div>
+		</div>
+		<div class="row d-md-flex justify-content-center">
+			<div class="col-md-6 col-lg-6 half p-6 py-9 pl-lg-6 mb-5 ftco-animate heading-section heading-section-white">
+				<center><h1 class="mb-4">Step 1</h1><h2 class="mb-4">Download sample .xlsx file and fill it</h2>
+				<img src="{% static "/images/excel.png" %}" style="max-width:80%;">
+
+				<p></p>
+				<a href="{% static "/files/test_order.xlsx" %}" class="btn btn-primary">Download file</a></center>
+			</div>
+			<div class="col-md-6 col-lg-6 half p-6 py-9 pl-lg-6 ftco-animate heading-section heading-section-white">
+				<center><h1 class="mb-4">Step 2</h1><h2 class="mb-5">Make order from .xlsx file</h2>
+				<form action="{% url "order_from_file" %}" method="post" enctype="multipart/form-data">
+					{% csrf_token %}
+					<input type="file"
+								title="Upload excel file"
+							  name="excel_file"
+					      style="border: 1px solid black; padding: 5px;"
+								class="btn btn-white"
+					      required="required">
+					<hr>
+					<input type="submit"
+					      value="Upload file"
+								class="btn btn-white"
+					      style="border: 1px solid white; cursor: pointer;">
+				</form>
+					<hr>
+					{% for row in excel_data %}
+							{% for cell in row %}
+									{{ cell }}&nbsp;&nbsp;
+							{% endfor %}
+					 		<br>
+					 {% endfor %}
+				</center>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}

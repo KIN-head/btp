@@ -1,3 +1,10 @@
 h1 a {
     color: #FCA205;
 }
+td {padding: 5px; border: 1px solid #000;}
+th {padding: 5px; border: 1px solid #000;}
+
+.btn.btn-primary:hover {
+  border: 1px solid #f79f24;
+  background: white;
+  color: #f79f24; }
