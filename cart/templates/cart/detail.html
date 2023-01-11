@@ -47,7 +47,7 @@
                           <td>{{ product.name }}</td>
                           <td>{{ item.quantity }}</td>
                           <td>
-                              <a href="{% url "cart_remove" product.id %}">Remove</a>
+                              {% if product.id %}<a href="{% url "cart_remove" product.id %}">Remove</a>{% endif %}
                           </td>
                           <!--<td class="num">${{ item.price }}</td>
                           <td class="num">${{ item.total_price }}</td>-->
@@ -57,7 +57,7 @@
               <tr class="total">
                   <td>Make order</td>
                   <td></td>
-                  <td></td>
+                  <td><a href="{% url "cart_clear" %}" class="button">Clear</a></td>
                   <td><a href="{% url "order_create" %}" class="button">Checkout</a></td>
               </tr>
               </tbody>
